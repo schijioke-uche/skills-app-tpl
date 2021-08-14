@@ -1,15 +1,20 @@
-FROM registry.access.redhat.com/ubi8/nodejs-14-minimal:1
+# @Info: IBM Garage Technology - Cloud Containerization.
+# @Author: Jeffrey Chijioke-Uche (MSIT, MSIS, DS).
+# @Update: Last updated August 12, 2021.
+# @Company: IBM.
+# @Notice: DO NOT MODIFY FILE.
 
-WORKDIR /opt/app-root/src
-
-COPY package.json /opt/app-root/src
-RUN npm install --only=prod
-COPY server /opt/app-root/src/server
-COPY public /opt/app-root/src/public
-
-ENV NODE_ENV production
-ENV PORT 3000
-
+FROM quay.io/ibmskillsapp/node-alpine as build
+ENV NODE_ENV="production"
+WORKDIR /app
+COPY package*.json .
+COPY . .
+RUN npm install
+RUN npm run build
 EXPOSE 3000
+CMD npm run release
 
-CMD ["npm", "start"]
+FROM quay.io/ibmskillsapp/openshift-os
+ENV NODE_ENV="production"
+COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
