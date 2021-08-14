@@ -1,5 +1,5 @@
 {
-  "name": "nodejsexpressapp",
+  "name": "skills-app-tpl",
   "version": "1.0.0",
   "description": "Start building your next Node.js Express app on IBM Cloud.",
   "private": true,
@@ -7,6 +7,7 @@
     "node": "^14.0.0"
   },
   "scripts": {
+    "build": "build",
     "dev": "nodemon server/server.js",
     "start": "node server/server.js",
     "check-coverage": "nyc report --check-coverage --lines 100",
@@ -37,8 +38,11 @@
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "build": "^0.1.4",
+    "concurrently": "^6.2.1",
     "express": "^4.17.1",
     "ibm-cloud-env": "^0",
+    "react-scripts": "^4.0.3",
     "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
